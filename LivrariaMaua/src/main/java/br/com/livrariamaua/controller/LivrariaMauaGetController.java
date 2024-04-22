@@ -36,4 +36,9 @@ public class LivrariaMauaGetController {
 	  public Books getBookByTitle(@PathVariable String title) throws Exception {
 	    return lmService.findBookByTitle(title);
 	  }
+	
+	@GetMapping("/books/gender/{gender}")
+	  public Books getBookByGender(@PathVariable String gender) throws Exception {
+	    return lmService.findBookByGender(gender);
+	  }
 }

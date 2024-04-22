@@ -17,6 +17,9 @@ public interface BooksRepository extends JpaRepository<Books,Integer> {
 	@Query(value = "SELECT * FROM BOOKS b WHERE UPPER(b.author) LIKE %:author%", nativeQuery = true)
 	public Books findByAuthor(@Param("author") String author);
 	
+	@Query(value = "SELECT * FROM BOOKS b WHERE UPPER(b.gender) LIKE %:gender%", nativeQuery = true)
+	public Books findByGender(@Param("gender") String gender);
+	
 	@Modifying
 	@Query(value = "UPDATE BOOKS b SET b.title=:title, b.author=:author, b.quantity=:quantity,"
 			+ "b.gender=:gender WHERE b.id=:id", nativeQuery = true)

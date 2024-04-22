@@ -16,6 +16,14 @@ public class ControllerExceptionHandler {
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
 	}
 	
+	@ExceptionHandler({ BooksNotValidException.class })
+	public ResponseEntity<ExceptionResponse> handleBooksNotValidException(Exception exception) {
+		BooksNotValidException booksNotValidException = (BooksNotValidException) exception;
+		ExceptionResponse exceptionResponse = new ExceptionResponse();
+		exceptionResponse.getMessages().add(new ExceptionMessage("406", booksNotValidException.getInfo(), "Erro na operação."));
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
+	}
+	
 	@ExceptionHandler({ AwsSecretsException.class })
 	public ResponseEntity<ExceptionResponse> handleAwsSecretsException(Exception exception) {
 		AwsSecretsException awsSecretsException = (AwsSecretsException) exception;

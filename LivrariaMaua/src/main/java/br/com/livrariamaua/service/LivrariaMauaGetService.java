@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.livrariamaua.domain.Books;
+import br.com.livrariamaua.enums.LivrariaMauaOperations;
 import br.com.livrariamaua.exception.BooksNotFoundException;
 import br.com.livrariamaua.repository.BooksRepository;
 
 @Service
-public class LivrariaMauaGetService {
+public class LivrariaMauaGetService extends LivrariaMauaService {
 
 	@Autowired
 	BooksRepository booksRepository;
@@ -20,9 +21,10 @@ public class LivrariaMauaGetService {
 	}
 
 	public Books findBook(Integer id) throws Exception {
+		validateId(id);
 		Optional<Books> books = booksRepository.findById(id);
 		if (books.isPresent()) {
-			validateReturn(books.get());
+			validate(books.get(), LivrariaMauaOperations.LIST);
 		} else {
 			throw new BooksNotFoundException("Index informado nao encontrado.");
 		}
@@ -30,25 +32,23 @@ public class LivrariaMauaGetService {
 	}
 
 	public Books findBookByAuthor(String author) throws Exception {
+		validateParam(author);
 		Books book = booksRepository.findByAuthor(author.toUpperCase());
-		validateReturn(book);
+		validate(book, LivrariaMauaOperations.LIST);
 		return book;
 	}
 
 	public Books findBookByTitle(String title) throws Exception {
-		Books book = booksRepository.findByTitle(title);
-		validateReturn(book);
+		validateParam(title);
+		Books book = booksRepository.findByTitle(title.toUpperCase());
+		validate(book, LivrariaMauaOperations.LIST);
 		return book;
 	}
 	
-	
-	private void validateReturn(Books book) throws BooksNotFoundException {
-		if(null == book) {
-			throw new BooksNotFoundException("Livro nao encontrado");
-		}
-	}
-
-	public Books addNewBook(Books book) {
-		return booksRepository.save(book);	
+	public Books findBookByGender(String gender) throws Exception {
+		validateParam(gender);
+		Books book = booksRepository.findByGender(gender.toUpperCase());
+		validate(book, LivrariaMauaOperations.LIST);
+		return book;
 	}
 }
