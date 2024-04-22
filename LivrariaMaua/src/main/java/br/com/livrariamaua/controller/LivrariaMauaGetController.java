@@ -1,9 +1,8 @@
 package br.com.livrariamaua.controller;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +17,8 @@ public class LivrariaMauaGetController {
 	LivrariaMauaGetService lmService;
 	
 	@GetMapping(value = "/books")
-	public ResponseEntity<Object> getBooks() {
-	    return ResponseEntity.of(Optional.ofNullable((lmService.findAll())));
+	public Iterable<Books> getBooks() {
+	    return lmService.findAll();
 	  }
 	
 	@GetMapping(value = "/books/index/{id}")
@@ -28,17 +27,17 @@ public class LivrariaMauaGetController {
 	  }
 	
 	@GetMapping("/books/author/{author}")
-	  public Books getBookByAuthor(@PathVariable String author) throws Exception {
+	  public List<Books> getBookByAuthor(@PathVariable String author) throws Exception {
 	    return lmService.findBookByAuthor(author);
 	  }
 	
 	@GetMapping("/books/title/{title}")
-	  public Books getBookByTitle(@PathVariable String title) throws Exception {
+	  public List<Books> getBookByTitle(@PathVariable String title) throws Exception {
 	    return lmService.findBookByTitle(title);
 	  }
 	
 	@GetMapping("/books/gender/{gender}")
-	  public Books getBookByGender(@PathVariable String gender) throws Exception {
+	  public List<Books> getBookByGender(@PathVariable String gender) throws Exception {
 	    return lmService.findBookByGender(gender);
 	  }
 }

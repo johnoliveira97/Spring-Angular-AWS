@@ -1,5 +1,6 @@
 package br.com.livrariamaua.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,23 +32,23 @@ public class LivrariaMauaGetService extends LivrariaMauaService {
 		return books.get();
 	}
 
-	public Books findBookByAuthor(String author) throws Exception {
+	public List<Books> findBookByAuthor(String author) throws Exception {
 		validateParam(author);
-		Books book = booksRepository.findByAuthor(author.toUpperCase());
+		List<Books> book = booksRepository.findByAuthor(author.toUpperCase());
 		validate(book, LivrariaMauaOperations.LIST);
 		return book;
 	}
 
-	public Books findBookByTitle(String title) throws Exception {
+	public List<Books> findBookByTitle(String title) throws Exception {
 		validateParam(title);
-		Books book = booksRepository.findByTitle(title.toUpperCase());
+		List<Books> book = booksRepository.findByTitle(title.toUpperCase());
 		validate(book, LivrariaMauaOperations.LIST);
 		return book;
 	}
 	
-	public Books findBookByGender(String gender) throws Exception {
+	public List<Books> findBookByGender(String gender) throws Exception {
 		validateParam(gender);
-		Books book = booksRepository.findByGender(gender.toUpperCase());
+		List<Books> book = booksRepository.findByGender(gender.toUpperCase());
 		validate(book, LivrariaMauaOperations.LIST);
 		return book;
 	}

@@ -27,6 +27,8 @@ public class LivrariaMauaValidateBook {
 	public void validateBook(List<Books> books, LivrariaMauaOperations operation) {
 		if (null == books || books.isEmpty() && operation == LivrariaMauaOperations.SAVE) {
 			throw new BooksNotValidException("Parametros necessários não informados.");
+		} else if (null == books || books.isEmpty() && operation == LivrariaMauaOperations.LIST) {
+			throw new BooksNotFoundException("Livros não encontrados para os parâmetros informados.");
 		} else if (null != books && !books.isEmpty()) {
 			for (Books book : books) {
 				String author = book.getAuthor();
@@ -52,24 +54,26 @@ public class LivrariaMauaValidateBook {
 
 	private void validateParams(String author, String title, String gender, Integer quantity) {
 		String invalidParam = null;
-		if (null == author) {
-			invalidParam = "Autor nulo.";
+		String invalidQuantity = "";
+		if (null == author || "".equalsIgnoreCase(author.trim())) {
+			invalidParam = "author";
 		}
 
-		if (null == title) {
-			invalidParam = "Título nulo.";
+		if (null == title || "".equalsIgnoreCase(title.trim())) {
+			invalidParam = "title";
 		}
 
-		if (null == gender) {
-			invalidParam = "Gênero nulo.";
+		if (null == gender || "".equalsIgnoreCase(gender.trim())) {
+			invalidParam = "gender";
 		}
 
 		if (quantity <= 0) {
-			invalidParam = "Quantidade precisa ser maior que 0.";
+			invalidParam = "quantity";
+			invalidQuantity = " Quantidade precisa ser maior que zero.";
 		}
 
 		if (null != invalidParam) {
-			throw new BooksNotValidException("Pamaretro inválido. " + invalidParam);
+			throw new BooksNotValidException("Pamaretro " + invalidParam + " inválido." + invalidQuantity);
 		}
 	}
 }
