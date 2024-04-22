@@ -16,7 +16,7 @@ public class LivrariaMauaDeleteController {
 	LivrariaMauaDeleteService lmService;
 	
 	@DeleteMapping(value = "/books/{id}")
-	public ResponseEntity<Object> saveBooks(@PathVariable String id) {
+	public ResponseEntity<Object> deleteBooks(@PathVariable String id) {
 		lmService.deleteBook(Integer.parseInt(id));
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}

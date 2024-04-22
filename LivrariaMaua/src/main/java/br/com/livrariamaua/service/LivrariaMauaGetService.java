@@ -18,7 +18,9 @@ public class LivrariaMauaGetService extends LivrariaMauaService {
 	BooksRepository booksRepository;
 
 	public Iterable<Books> findAll() {
-		return booksRepository.findAll();
+		List<Books> books = booksRepository.findAll();
+		validate(books, LivrariaMauaOperations.LIST);
+		return books;
 	}
 
 	public Books findBook(Integer id) throws Exception {
@@ -32,21 +34,21 @@ public class LivrariaMauaGetService extends LivrariaMauaService {
 		return books.get();
 	}
 
-	public List<Books> findBookByAuthor(String author) throws Exception {
+	public List<Books> findBooksByAuthor(String author) throws Exception {
 		validateParam(author);
 		List<Books> book = booksRepository.findByAuthor(author.toUpperCase());
 		validate(book, LivrariaMauaOperations.LIST);
 		return book;
 	}
 
-	public List<Books> findBookByTitle(String title) throws Exception {
+	public List<Books> findBooksByTitle(String title) throws Exception {
 		validateParam(title);
 		List<Books> book = booksRepository.findByTitle(title.toUpperCase());
 		validate(book, LivrariaMauaOperations.LIST);
 		return book;
 	}
 	
-	public List<Books> findBookByGender(String gender) throws Exception {
+	public List<Books> findBooksByGender(String gender) throws Exception {
 		validateParam(gender);
 		List<Books> book = booksRepository.findByGender(gender.toUpperCase());
 		validate(book, LivrariaMauaOperations.LIST);

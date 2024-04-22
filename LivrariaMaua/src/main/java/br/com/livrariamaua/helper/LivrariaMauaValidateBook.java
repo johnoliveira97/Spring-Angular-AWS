@@ -13,7 +13,7 @@ public class LivrariaMauaValidateBook {
 
 		if (null == book && (operation == LivrariaMauaOperations.SAVE || operation == LivrariaMauaOperations.EDIT)) {
 			throw new BooksNotValidException("Parametros necessários não informados.");
-		} else if (null == book && operation == LivrariaMauaOperations.LIST) {
+		} else if ((null == book || null == book.getId()) && operation == LivrariaMauaOperations.LIST) {
 			throw new BooksNotFoundException("Livro nao encontrado");
 		} else if (null != book && operation != LivrariaMauaOperations.LIST) {
 			String author = book.getAuthor();

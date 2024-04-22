@@ -27,17 +27,17 @@ public class LivrariaMauaGetController {
 	  }
 	
 	@GetMapping("/books/author/{author}")
-	  public List<Books> getBookByAuthor(@PathVariable String author) throws Exception {
-	    return lmService.findBookByAuthor(author);
+	  public List<Books> getBooksByAuthor(@PathVariable String author) throws Exception {
+	    return lmService.findBooksByAuthor(author);
 	  }
 	
 	@GetMapping("/books/title/{title}")
-	  public List<Books> getBookByTitle(@PathVariable String title) throws Exception {
-	    return lmService.findBookByTitle(title);
+	  public List<Books> getBooksByTitle(@PathVariable String title) throws Exception {
+	    return lmService.findBooksByTitle(title);
 	  }
 	
 	@GetMapping("/books/gender/{gender}")
-	  public List<Books> getBookByGender(@PathVariable String gender) throws Exception {
-	    return lmService.findBookByGender(gender);
+	  public List<Books> getBooksByGender(@PathVariable String gender) throws Exception {
+	    return lmService.findBooksByGender(gender);
 	  }
 }

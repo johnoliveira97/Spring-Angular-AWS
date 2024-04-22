@@ -18,7 +18,7 @@ public class LivrariaMauaEditController {
 	LivrariaMauaEditService lmService;
 	
 	@PatchMapping(value = "/books/{id}")
-	public ResponseEntity<Object> saveBooks(@RequestBody Books book, @PathVariable String id) {
+	public ResponseEntity<Object> editBooks(@RequestBody Books book, @PathVariable String id) {
 		lmService.editBook(book, Integer.parseInt(id));
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
