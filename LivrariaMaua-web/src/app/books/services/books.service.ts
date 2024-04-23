@@ -15,11 +15,11 @@ export class BooksService {
   constructor(private httpClient: HttpClient) { }
 
   list() {
-    return this.httpClient.get<Books>(`${this.API}/books`);
+    return this.httpClient.get<Books>(`${this.API}books`);
   }
 
   loadById(id: string) {
-    return this.httpClient.get<Books>(`${this.API}/books/index/${id}`);
+    return this.httpClient.get<Books>(`${this.API}books/index/${id}`);
   }
 
   save(record: Partial<Books>) {
@@ -30,14 +30,14 @@ export class BooksService {
   }
 
   private create(record: Partial<Books>) {
-    return this.httpClient.post<Books>(`${this.API}/books`, record).pipe(first());
+    return this.httpClient.post<Books>(`${this.API}books`, record).pipe(first());
   }
 
    update(record: Partial<Books>) {
-    return this.httpClient.patch<Books>(`${this.API}/books/${record.id}`, record).pipe(first());
+    return this.httpClient.patch<Books>(`${this.API}books/${record.id}`, record).pipe(first());
   }
 
   remove(id: string) {
-    return this.httpClient.delete(`${this.API}/books/${id}`).pipe(first());
+    return this.httpClient.delete(`${this.API}books/${id}`).pipe(first());
   }
 }
