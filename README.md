@@ -3,7 +3,7 @@ Crud - Livraria com Spring (Java 17) e Angular 14. Subindo na AWS.
 
 O link base, para acessar a app Back-End: http://livrariamaua.sa-east-1.elasticbeanstalk.com/
 
-O link base para acessar a tela da app (Front-End):
+O link base para acessar a tela da app (Front-End): http://livrariamaua-web.s3-website-sa-east-1.amazonaws.com/books
 
 Foram utilizados o Elastic Beanstalk, para subir a aplicação, redirecionando da porta 5000 para 80; S3 público, para hostear o site estático; DMS para criar arquivos csv, para gravar e auditar alterações no banco de dados.
 
