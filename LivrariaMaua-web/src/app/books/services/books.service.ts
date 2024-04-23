@@ -34,7 +34,6 @@ export class BooksService {
   }
 
    update(record: Partial<Books>) {
-    console.log(record);
     return this.httpClient.patch<Books>(`${this.API}/${record.id}`, record).pipe(first());
   }
 
