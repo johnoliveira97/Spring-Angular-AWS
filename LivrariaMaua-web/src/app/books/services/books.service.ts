@@ -10,16 +10,16 @@ import { Observable } from 'rxjs';
 })
 export class BooksService {
 
-  private readonly API = 'http://livrariamaua.sa-east-1.elasticbeanstalk.com/books';
+  private readonly API = 'http://livrariamaua.sa-east-1.elasticbeanstalk.com/';
 
   constructor(private httpClient: HttpClient) { }
 
   list() {
-    return this.httpClient.get<Books>(`${this.API}`);
+    return this.httpClient.get<Books>(`${this.API}/books`);
   }
 
   loadById(id: string) {
-    return this.httpClient.get<Books>(`${this.API}/index/${id}`);
+    return this.httpClient.get<Books>(`${this.API}/books/index/${id}`);
   }
 
   save(record: Partial<Books>) {
@@ -30,14 +30,14 @@ export class BooksService {
   }
 
   private create(record: Partial<Books>) {
-    return this.httpClient.post<Books>(this.API, record).pipe(first());
+    return this.httpClient.post<Books>(`${this.API}/books`, record).pipe(first());
   }
 
    update(record: Partial<Books>) {
-    return this.httpClient.patch<Books>(`${this.API}/${record.id}`, record).pipe(first());
+    return this.httpClient.patch<Books>(`${this.API}/books/${record.id}`, record).pipe(first());
   }
 
   remove(id: string) {
-    return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
+    return this.httpClient.delete(`${this.API}/books/${id}`).pipe(first());
   }
 }
