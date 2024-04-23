@@ -1,16 +1,13 @@
 import { ConfirmationDialogComponent } from './../../shared/components/confirmation-dialog/confirmation-dialog.component';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, of, tap } from 'rxjs';
 
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 import { Books } from '../model/books';
 import { BooksService } from '../services/books.service';
-import { BooksPage } from '../model/books-page';
-import { MatPaginator, PageEvent, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BooksListComponent } from '../components/books-list/books-list.component';
 import { AsyncPipe } from '@angular/common';
@@ -22,16 +19,16 @@ import { MatCardModule } from '@angular/material/card';
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.scss'],
   standalone: true,
-  imports: [MatCardModule, MatToolbarModule, BooksListComponent, MatPaginatorModule, MatProgressSpinnerModule, AsyncPipe]
+  imports: [MatCardModule, MatToolbarModule, BooksListComponent, MatProgressSpinnerModule, AsyncPipe]
 })
 
 export class BooksComponent implements OnInit {
-  books$: Observable<BooksPage> | null = null;
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  books$: Observable<Books[]> | null = null;
 
   pageIndex = 0;
   pageSize = 10;
+  totalElements = 0;
+  bookList: Books[] = [];
 
   constructor(
     private booksService: BooksService,
@@ -43,18 +40,24 @@ export class BooksComponent implements OnInit {
     this.refresh();
   }
 
-  refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }) {
-    this.books$ = this.booksService.list(pageEvent.pageIndex, pageEvent.pageSize)
-      .pipe(
-        tap(() => {
-          this.pageIndex = pageEvent.pageIndex;
-          this.pageSize = pageEvent.pageSize;
-        }),
-        catchError(error => {
-          this.onError('Erro ao carregar livros.');
-          return of({ books: [], totalElements: 0, totalPages: 0 })
-        })
-      );
+  refresh() {
+    this.booksService.list().pipe(
+      tap((response: any) => {
+        const booksArray = response;
+        if (Array.isArray(booksArray) && booksArray.length > 0) {
+          this.books$ = of(booksArray);
+          this.bookList = booksArray.filter(book => 
+            book.hasOwnProperty('title') && book.hasOwnProperty('author') && 
+            book.hasOwnProperty('gender') && book.hasOwnProperty('quantity')
+          );
+        }
+      })
+    ).subscribe(
+      () => {},
+      (error: any) => {
+        console.error('Erro ao obter os livros: ', error);
+      }
+    );
   }
 
   onError(errorMsg: string) {
@@ -70,7 +73,7 @@ export class BooksComponent implements OnInit {
   }
 
   onEdit(books: Books) {
-    this.router.navigate(['edit', books._id], { relativeTo: this.route });
+    this.router.navigate(['edit', books.id], { relativeTo: this.route });
   }
 
   onRemove(books: Books) {
@@ -80,7 +83,7 @@ export class BooksComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.booksService.remove(books._id).subscribe(
+        this.booksService.remove(books.id).subscribe(
           () => {
             this.refresh();
             this.snackBar.open('Livro removido com sucesso!', 'X', {

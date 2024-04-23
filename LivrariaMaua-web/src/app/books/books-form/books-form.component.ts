@@ -23,9 +23,11 @@ import { MatCardModule } from '@angular/material/card';
     standalone: true,
     imports: [MatCardModule, MatToolbarModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule, MatButtonModule, MatIconModule]
 })
+
 export class BooksFormComponent implements OnInit {
 
     form!: FormGroup;
+    book: Books | undefined;
 
     constructor(private formBuilder: NonNullableFormBuilder,
       private service: BooksService,
@@ -36,28 +38,67 @@ export class BooksFormComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    const books: Books = this.route.snapshot.data['books'];
-    this.form = this.formBuilder.group({
-      _id: [books._id],
-      author: [books.author, [Validators.required]],
-      gender: [books.gender, [Validators.required]],
-      title: [books.title, [Validators.required]],
-      quantity: [books.quantity, [Validators.required,
-        Validators.min(1)
-      ]]
-    });
+    const id = this.route.snapshot.params['id'];
+    if (id) {
+      this.service.loadById(id).subscribe(
+        (book: Books) => {
+          this.book = book;
+          this.initForm(book);
+        },
+        error => {
+          console.error('Error ao carregar informações do livro.', error);
+          this.snackBar.open('Error ao carregar informações do livro.', '', { duration: 5000 });
+          this.goBack();
+        }
+      );
+    } else {
+      this.initForm(null);
+    }
+  }
+
+  initForm(book: Books | null): void {
+    if (book) {
+      this.form! = this.formBuilder.group({
+        id: [book.id],
+        author: [book.author, [Validators.required]],
+        gender: [book.gender, [Validators.required]],
+        title: [book.title, [Validators.required]],
+        quantity: [book.quantity, [Validators.required, Validators.min(1)]]
+      });
+    } else {
+      this.form! = this.formBuilder.group({
+        id: [null],
+        author: ['', [Validators.required]],
+        gender: ['', [Validators.required]],
+        title: ['', [Validators.required]],
+        quantity: [null, [Validators.required, Validators.min(1)]]
+      });
+    }
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      this.service.save(this.form.value)
+    if (this.form!.valid) {
+      this.service.save(this.form!.value)
         .subscribe(result => this.onSuccess(), error => this.onError());
     } else {
-      this.formUtils.validateAllFormFields(this.form);
+      this.formUtils.validateAllFormFields(this.form!);
+    }
+  }
+
+  onEdit() {
+    if (this.form!.valid) {
+      this.service.update(this.form!.value)
+        .subscribe(result => this.onSuccess(), error => this.onError());
+    } else {
+      this.formUtils.validateAllFormFields(this.form!);
     }
   }
 
   onCancel() {
+    this.location.back();
+  }
+
+  goBack(): void {
     this.location.back();
   }
 

@@ -1,3 +1,3 @@
 [
-    { "_id": "1", "name": "Angular", "category": "front-end"}
+    { "id": "1", "name": "Angular", "category": "front-end"}
 ]

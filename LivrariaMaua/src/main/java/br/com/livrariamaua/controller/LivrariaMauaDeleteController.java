@@ -3,6 +3,7 @@ package br.com.livrariamaua.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.livrariamaua.service.LivrariaMauaDeleteService;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class LivrariaMauaDeleteController {
 
 	@Autowired

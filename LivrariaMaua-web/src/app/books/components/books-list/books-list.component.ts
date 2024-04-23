@@ -21,7 +21,7 @@ export class BooksListComponent implements OnInit {
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
 
-  readonly displayedColumns = ['title', 'author', 'gender', 'quantity'];
+  readonly displayedColumns = ['title', 'author', 'gender', 'quantity', 'actions'];
 
   constructor() { }
 

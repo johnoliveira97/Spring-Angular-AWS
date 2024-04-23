@@ -1,19 +1,17 @@
-mat-card {
-    max-width: 80%;
-    margin: 2em auto;
-    text-align: center;
-  }
+.mat-table {
+    overflow: auto;
+    max-height: 600px;
+}
   
-  .column-flex {
-    display: flex;
-    flex-direction: column;
-    min-width: 300px;
-  }
+.action-column {
+    flex: 0 0 125px;
+}
   
-  .loading-spinner {
-    padding: 25px;
-    background: rgba(0, 0, 0, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.action-column-header {
+    margin: 0 auto;
+}
+
+.toolbar {
+  flex: 1 1 auto;
+  text-align: center;
+}

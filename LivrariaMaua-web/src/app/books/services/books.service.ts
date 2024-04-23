@@ -2,31 +2,28 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Books } from '../model/books';
-import { delay, first, map, tap } from 'rxjs/operators';
-import { BooksPage } from '../model/books-page';
+import { first } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BooksService {
 
-  private readonly API = 'http://localhost:5000/books';
+  private readonly API = 'http://livrariamaua.sa-east-1.elasticbeanstalk.com/books';
 
   constructor(private httpClient: HttpClient) { }
 
-  list(page = 0, pageSize = 10) {
-    return this.httpClient.get<BooksPage>(this.API)
-      .pipe(
-        first(),
-      );
+  list() {
+    return this.httpClient.get<Books>(`${this.API}`);
   }
 
   loadById(id: string) {
-    return this.httpClient.get<Books>(`${this.API}/${id}`);
+    return this.httpClient.get<Books>(`${this.API}/index/${id}`);
   }
 
   save(record: Partial<Books>) {
-    if (record._id) {
+    if (record.id) {
       return this.update(record);
     }
     return this.create(record);
@@ -36,8 +33,9 @@ export class BooksService {
     return this.httpClient.post<Books>(this.API, record).pipe(first());
   }
 
-  private update(record: Partial<Books>) {
-    return this.httpClient.put<Books>(`${this.API}/${record._id}`, record).pipe(first());
+   update(record: Partial<Books>) {
+    console.log(record);
+    return this.httpClient.patch<Books>(`${this.API}/${record.id}`, record).pipe(first());
   }
 
   remove(id: string) {

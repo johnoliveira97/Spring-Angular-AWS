@@ -1,24 +1,16 @@
 <mat-card>
-    <mat-toolbar color="primary">Livraria Maua</mat-toolbar>
+    <mat-toolbar color="primary">
+      <span class="toolbar">Livraria Maua</span>
+    </mat-toolbar>
   
     @if (books$ | async; as books) {
     <div class="example-container mat-elevation-z8">
       <app-books-list
-        [books]="books.books"
+        [books]="bookList"
         (add)="onAdd()"
         (edit)="onEdit($event)"
         (remove)="onRemove($event)"
       ></app-books-list>
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 15]"
-        showFirstLastButtons
-        [pageIndex]="pageIndex"
-        [pageSize]="pageSize"
-        [length]="books.totalElements"
-        (page)="refresh($event)"
-        aria-label="Select page of books"
-      >
-      </mat-paginator>
     </div>
     } @else {
     <div class="loading-spinner">
