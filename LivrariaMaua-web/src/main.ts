@@ -7,12 +7,6 @@ import { PreloadAllModules, provideRouter, withPreloading } from '@angular/route
 
 import { AppComponent } from './app/app.component';
 import { APP_ROUTES } from './app/app.routes';
-import { environment } from './enviroments/enviroment';
-
-
-if (environment.production) {
-    enableProdMode();
-  }
   
   bootstrapApplication(AppComponent, {
     providers: [
