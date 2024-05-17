@@ -23,12 +23,4 @@ public class ControllerExceptionHandler {
 		exceptionResponse.getMessages().add(new ExceptionMessage("406", booksNotValidException.getInfo(), "Erro na operação."));
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
 	}
-	
-	@ExceptionHandler({ AwsSecretsException.class })
-	public ResponseEntity<ExceptionResponse> handleAwsSecretsException(Exception exception) {
-		AwsSecretsException awsSecretsException = (AwsSecretsException) exception;
-		ExceptionResponse exceptionResponse = new ExceptionResponse();
-		exceptionResponse.getMessages().add(new ExceptionMessage("406", awsSecretsException.getInfo(), awsSecretsException.getMessage()));
-		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
-	}
 }

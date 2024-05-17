@@ -12,9 +12,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import br.com.livrariamaua.helper.AwsSecret;
-import br.com.livrariamaua.helper.LivrariaMauaGetAwsSecret;
-
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "br.com.livrariamaua", entityManagerFactoryRef = "livrariaMauaEntityManager", transactionManagerRef = "livrariaMauaTransactionManager")
@@ -22,15 +19,16 @@ public class LivrariaMauaDataSourceConfig extends DataSourceConfig {
 
 	@Value("${spring.datasource.url}")
 	private String url;
+	
+	@Value("${spring.datasource.username}")
+	private String username;
 
 	@Bean
 	@ConfigurationProperties(prefix = "datasource")
 	DataSource livrariaMauaDatasource() {
 		try {
 			
-			AwsSecret awsSecret = LivrariaMauaGetAwsSecret.getSecret();
-
-			return getDatasource(url, awsSecret.username(), awsSecret.password());
+			return getDatasource(url, username);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();

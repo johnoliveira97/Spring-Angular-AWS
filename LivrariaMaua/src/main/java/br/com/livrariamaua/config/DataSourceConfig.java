@@ -10,12 +10,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 public abstract class DataSourceConfig {
 	
-	protected DataSource getDatasource(String url, String username, String password) {
+	protected DataSource getDatasource(String url, String username) {
 
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setUrl(url);
 		dataSource.setUsername(username);
-		dataSource.setPassword(password);
 
 		return dataSource;
 	}
